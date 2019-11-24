@@ -38,7 +38,7 @@ def _is_slice(value):
 
 class vector:
 	"""Vector container to store elements with a specific type."""
-	def __init__(self, typecode, *, length=0, default=None, *args):
+	def __init__(self, typecode, args=[], *, length=0, default=None):
 		"""Constructor
 
 		Arguments: 
@@ -47,13 +47,13 @@ class vector:
 			length : default length
 			default: default value assign to elements if length not 0.
 			args:
-				if 1 -> becomes length
-				otherwise -> elements used for initialization
+				elements used for initialization
 		"""
 		if typecode in typecodes:
 			if length and length > 0:
 				self._array = [default] * length
 			elif args:
+				# Type checking in args
 				self._array = list(args)
 			else:
 				self._array = []
