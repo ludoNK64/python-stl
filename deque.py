@@ -8,7 +8,7 @@ This is a subclass of vector but adds these methods:
 from .vector import vector
 
 class deque(vector):
-    """"""
+    """Double-ended queue sequence container."""
     def __init__(self, typecode, args=[], *, length=0, default=None):
         """Constructor
 
