@@ -1,21 +1,14 @@
 """Vector container
 
 This container implements these methods:
-	assign -> assign values to the container
 	at -> access specified element with bounds checking
 	[] -> access specified element
 	front -> access the first element
 	back  -> access the last element
 	data -> direct access to the underlying array
-	begin -> returns an iterator to the beginning
-	end -> returns and iterator to the end
-	cbegin
-	cend
-	crbegin
-	crend
+	forward_iter -> returns an iterator for forward iterations
+	backward_iter -> returns an iterator for backward iterations
 	size -> returns the number of elements
-	max_size -> returns the maximum possible number of elements
-	reserve -> reverses storage
 	capicity -> returns the number of elements that can be held in currently allocated storage
 	clear -> clears contents
 	insert -> inserts elements
@@ -88,6 +81,10 @@ class vector:
 		"""Direct access to the underlying array."""
 		return self._array
 
+	def copy(self):
+		"""Returns a shallow copy of the vector."""
+		return self._array.copy()
+
 	def size(self):
 		"""Returns the number of elements."""
 		return len(self)
@@ -101,7 +98,7 @@ class vector:
 		self._array.clear()
 
 	def insert(self, index, value):
-		"""Inserts element at index."""
+		"""Inserts element before index."""
 		if not _is_int(index):
 			raise TypeError("Invalid type for 'index', got %s" % type(index))
 		if index < 0 or index >= len(self):
@@ -127,23 +124,31 @@ class vector:
 		else:
 			return default
 
-	def emplace_back(self, value):
-		raise NotImplementedError
-
 	def swap(self, other):
-		raise NotImplementedError
-
-	def max_size(self):
-		return NotImplemented
+		"""Swaps vectors content."""
+		if isinstance(other, vector):
+			self._array, other._array = other._array, self._array
 
 	def capacity(self):
-		return NotImplemented
+		return self.size()
 
-	def begin(self):
-		return NotImplemented 
+	def forward_iter(self):
+		"""Returns an iterator for forward iteration."""
+		for i in range(self.size()):
+			yield self._array[i]  
 
-	def end(self):
-		return NotImplemented 
+	def backward_iter(self):
+		"""Returns an iterator for backward iteration."""
+		current_index = self.size() - 1
+		while current_index >= 0:
+			yield self._array[current_index]
+			current_index -= 1
+
+	def resize(self, count):
+		"""Resizes the container to contain count elements."""
+		if isinstance(count, int) and count > 0:
+			self._array = self._array[:count]
+		# otherwise, does nothing.
 
 	# Special methods
 	def __len__(self):
