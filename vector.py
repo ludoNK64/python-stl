@@ -5,11 +5,13 @@ This container implements these methods:
 	[] -> access specified element
 	front -> access the first element
 	back  -> access the last element
+	empty -> checks whether the underlying array is empty
 	data -> direct access to the underlying array
 	forward_iter -> returns an iterator for forward iterations
 	backward_iter -> returns an iterator for backward iterations
 	size -> returns the number of elements
-	capicity -> returns the number of elements that can be held in currently allocated storage
+	capicity -> returns the number of elements that can be held in currently
+				allocated storage
 	clear -> clears contents
 	insert -> inserts elements
 	erase -> erases elements
@@ -174,6 +176,10 @@ class vector:
 		if isinstance(count, int) and count > 0:
 			self._array = self._array[:count]
 		# otherwise, do nothing.
+
+	def empty(self):
+		"""Checks whether the underlying array is empty."""
+		return len(self) == 0
 
 	# Special methods
 	def __len__(self):
