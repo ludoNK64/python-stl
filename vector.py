@@ -201,7 +201,7 @@ class vector:
 		return next(self._array)
 
 	def __str__(self):
-		return "vector('%s', %s)" % (self.typecode,
+		return "%s('%s', %s)" % (self.__class__.__name__, self.typecode,
 			", ".join([str(elt) for elt in self._array]))
 
 	def __repr__(self):
