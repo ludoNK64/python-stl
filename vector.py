@@ -21,7 +21,9 @@ This container implements these methods:
 
 __all__ = ['typecodes', 'vector']
 
-typecodes = {'b', 'B', 'h', 'H', 'i', 'I', 'l', 'L', 'f', 'd'}
+import array
+
+typecodes = array.typecodes + '*' # '*' means everything
 
 def _is_int(value):
 	return isinstance(value, int)
@@ -35,25 +37,38 @@ class vector:
 		"""Constructor
 
 		Arguments: 
-			typecode: 'b', 'B', 'h', 'H', 'i', 'I', 'l', 'L', 'f', 'd', 
-				'A' (any)
-			length : default length
-			default: default value assign to elements if length not 0.
-			args:
-				elements used for initialization
+			typecode: valid typecode contains in typecodes
+			args    : elements used for initialization (tuple, list, ...)
+			length  : default vector length
+			default : default value assign to elements if length is not 0.
+
+		'*' as typecode means everything so it's possible to an element of
+		any type in the vector.
 		"""
+		if length and length > 0:
+			arr = [default] * length
+		elif args:
+			arr = list(args)
+		else: 
+			pass 
 		if typecode in typecodes:
-			if length and length > 0:
-				self._array = [default] * length
-			elif args:
-				# Type checking in args
-				self._array = list(args)
+			self._typecode = typecode
+			if typecode != '*':
+				try:
+					self._array = array.array(typecode)
+					self._array.fromlist(arr)
+				except TypeError: 
+					raise 
 			else:
 				self._array = []
 		else:
-			raise ValueError("Invalid typecode, value must be: %s" % 
+			raise ValueError("Invalid typecode, value must be in: %s" % 
 				str(typecodes))
 
+	@property
+	def typecode(self):
+		return self._typecode 
+		
 	def at(self, index, default=None):
 		"""Access specified element at index with bounds checking.
 
@@ -79,11 +94,17 @@ class vector:
 
 	def data(self):
 		"""Direct access to the underlying array."""
-		return self._array
+		if isinstance(self._array, list):
+			return self._array
+		else:
+			return self._array.tolist()
 
 	def copy(self):
 		"""Returns a shallow copy of the vector."""
-		return self._array.copy()
+		if isinstance(self._array, list):
+			return self._array.copy()
+		else:
+			return list(self._array)
 
 	def size(self):
 		"""Returns the number of elements."""
@@ -95,7 +116,10 @@ class vector:
 
 	def clear(self):
 		"""Clears all elements."""
-		self._array.clear()
+		if isinstance(self._array, list):
+			self._array.clear()
+		else:
+			self._array = array.array(self.typecode)
 
 	def insert(self, index, value):
 		"""Inserts element before index."""
@@ -127,6 +151,7 @@ class vector:
 	def swap(self, other):
 		"""Swaps vectors content."""
 		if isinstance(other, vector):
+			self._typecode, other._typecode = other._typecode, self._typecode
 			self._array, other._array = other._array, self._array
 
 	def capacity(self):
@@ -148,7 +173,7 @@ class vector:
 		"""Resizes the container to contain count elements."""
 		if isinstance(count, int) and count > 0:
 			self._array = self._array[:count]
-		# otherwise, does nothing.
+		# otherwise, do nothing.
 
 	# Special methods
 	def __len__(self):
@@ -156,17 +181,14 @@ class vector:
 
 	def __getitem__(self, index):
 		if _is_int(index) or _is_slice(index):
-			# Bounds limits verification here!
 			return self._array[index]
 
 	def __setitem__(self, index, value):
 		if _is_int(index) or _is_slice(index):
-			# Bounds limits verification here!
 			self._array[index] = value 
 
 	def __delitem__(self, index):
 		if _is_int(index) or _is_slice(index):
-			# Bounds limits verification here!
 			del self._array[index]
 
 	def __contains__(self, value):
@@ -177,3 +199,10 @@ class vector:
 
 	def __next__(self):
 		return next(self._array)
+
+	def __str__(self):
+		return "vector('%s', %s)" % (self.typecode,
+			", ".join([str(elt) for elt in self._array]))
+
+	def __repr__(self):
+		return str(self)
