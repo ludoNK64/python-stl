@@ -10,7 +10,7 @@ This container implements these methods:
 	forward_iter -> returns an iterator for forward iterations
 	backward_iter -> returns an iterator for backward iterations
 	size -> returns the number of elements
-	capicity -> returns the number of elements that can be held in currently
+	capacity -> returns the number of elements that can be held in currently
 				allocated storage
 	clear -> clears contents
 	insert -> inserts elements
