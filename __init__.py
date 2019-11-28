@@ -1,7 +1,7 @@
 """STL package, implements common used C++ containers.
 """
 
-__all__ = ['deque', 'forward_list', 'list', 'queue', 'stack', 'vector']
+__all__ = ['deque', 'queue', 'stack', 'vector']
 
 __author__ = 'Ludovic Tankeu'
 
