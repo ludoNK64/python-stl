@@ -27,10 +27,10 @@ import array
 
 typecodes = array.typecodes + '*' # '*' means everything
 
-def _is_int(value):
+def _is_int(value) -> bool:
 	return isinstance(value, int)
 
-def _is_slice(value):
+def _is_slice(value) -> bool:
 	return isinstance(value, slice)
 
 class vector:
@@ -44,8 +44,8 @@ class vector:
 			length  : default vector length
 			default : default value assign to elements if length is not 0.
 
-		'*' as typecode means everything so it's possible to an element of
-		any type in the vector.
+		'*' as typecode means everything so it's possible to add an element 
+		of any type in the container.
 		"""
 		if length and length > 0:
 			arr = [default] * length
@@ -60,7 +60,7 @@ class vector:
 				except TypeError: 
 					raise 
 			else:
-				self._array = []
+				self._array = arr
 		else:
 			raise ValueError("Invalid typecode, value must be in: %s" % 
 				str(typecodes))
@@ -122,16 +122,12 @@ class vector:
 		"""Inserts element before index."""
 		if not _is_int(index):
 			raise TypeError("Invalid type for 'index', got %s" % type(index))
-		if index < 0 or index >= len(self):
-			raise IndexError("Index out of range, bounds (0, %d)" % len(self))
 		self._array.insert(index, value)
 
 	def erase(self, index):
 		"""Erases element at index."""
 		if not _is_int(index):
 			raise TypeError("Invalid type for 'index', got %s" % type(index))
-		if index < 0 or index >= len(self):
-			raise IndexError("Index out of range, bounds (0, %d)" % len(self))
 		self._array.pop(index)
 
 	def push_back(self, value):
@@ -165,7 +161,7 @@ class vector:
 
 	def resize(self, count):
 		"""Resizes the container to contain count elements."""
-		if isinstance(count, int) and count > 0:
+		if _is_int(count) and count > 0:
 			self._array = self._array[:count]
 		# otherwise, do nothing.
 
