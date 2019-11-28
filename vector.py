@@ -104,9 +104,7 @@ class vector:
 	def copy(self):
 		"""Returns a shallow copy of the vector."""
 		if isinstance(self._array, list):
-			return self._array.copy()
-		else:
-			return list(self._array)
+			return self.__class__(self.typecode, self._array)
 
 	def size(self):
 		"""Returns the number of elements."""
