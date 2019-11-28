@@ -1,6 +1,6 @@
-"""Deque container.
+"""Double-ended queue sequence container.
 
-This is a subclass of vector but adds these methods:
+This is a subclass of vector and adds these methods:
     push_front -> inserts element to the beginning
     pop_front  -> removes the first element
 """
@@ -8,7 +8,7 @@ This is a subclass of vector but adds these methods:
 from .vector import vector
 
 class deque(vector):
-    """Double-ended queue sequence container."""
+    """Deque container class."""
     def __init__(self, typecode, args=[], *, length=0, default=None):
         """Constructor
 
