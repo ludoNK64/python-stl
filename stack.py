@@ -3,7 +3,7 @@
 This container gives the programmer the functionnality
 of a stack, LIFO (last-in, first-out) data structure.
 
-Methods implemented here:
+The stack class contains these methods:
     top   -> accesses the top element
     empty -> checks whether the underlying container is empty
     size  -> returns the number of elements

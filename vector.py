@@ -1,6 +1,6 @@
 """Vector container
 
-This container implements these methods:
+The vector container implements these methods:
 	at -> access specified element with bounds checking
 	[] -> access specified element
 	front -> access the first element
