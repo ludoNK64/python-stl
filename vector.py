@@ -49,10 +49,8 @@ class vector:
 		"""
 		if length and length > 0:
 			arr = [default] * length
-		elif args:
+		else:
 			arr = list(args)
-		else: 
-			pass 
 		if typecode in typecodes:
 			self._typecode = typecode
 			if typecode != '*':
@@ -103,8 +101,7 @@ class vector:
 
 	def copy(self):
 		"""Returns a shallow copy of the vector."""
-		if isinstance(self._array, list):
-			return self.__class__(self.typecode, self._array)
+		return self.__class__(self.typecode, self._array)
 
 	def size(self):
 		"""Returns the number of elements."""
@@ -142,15 +139,12 @@ class vector:
 		self._array.append(value)
 
 	def pop_back(self, default=None):
-		"""Removes and returns the last element."""
-		if self._array:
-			return self._array.pop()
-		else:
-			return default
+		"""Removes the last element."""
+		self._array.pop()
 
 	def swap(self, other):
 		"""Swaps vectors content."""
-		if isinstance(other, vector):
+		if isinstance(other, self.__class__):
 			self._typecode, other._typecode = other._typecode, self._typecode
 			self._array, other._array = other._array, self._array
 

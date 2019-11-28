@@ -10,6 +10,8 @@ Methods implemented here:
     push  -> inserts element at the top
     pop   -> removes the top element
     swap  -> swaps the contents
+    copy  -> shallow copy of the stack
+    clear -> removes all elements
 """
 
 from .deque import deque 
@@ -21,12 +23,16 @@ class stack:
 
         This uses deque as the default container for operations.
         """
-        _length, _default = length, default
+        _length, _default = length, default 
         self.container = deque(typecode, args, length=_length, 
             default=_default)
 
+    @property
+    def typecode(self):
+        return self.container.typecode
+
     def top(self):
-        """accesses the top element."""
+        """Accesses the top element."""
         return self.container.back()
 
     def empty(self):
@@ -43,12 +49,22 @@ class stack:
 
     def pop(self):
         """Removes the top element."""
-        return self.container.pop_back()
+        self.container.pop_back()
 
     def swap(self, other):
         """Swaps the contents"""
-        if isinstance(other, stack):
+        if isinstance(other, self.__class__):
             self.container.swap(other.container)
+
+    def copy(self):
+        """Returns a shallow copy of the queue."""
+        cpy = self.__class__(self.typecode)
+        cpy.container = self.container.copy()
+        return cpy 
+
+    def clear(self):
+        """Removes all elements."""
+        self.container.clear()
 
     def __str__(self):
         c = self.container

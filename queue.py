@@ -12,6 +12,8 @@ The queue class contains these methods:
     push  -> inserts element at the end
     pop   -> removes the first element
     swap  -> swaps the contents
+    copy  -> shallow copy of the stack
+    clear -> removes all elements
 
 The default container used is deque. 
 """
@@ -26,9 +28,12 @@ class queue:
         typecodes are those available in vector.py
         """
         _length, _default = length, default
-        self.typecode = typecode
         self.container = deque(typecode, args, length=_length, 
             default=_default)
+
+    @property
+    def typecode(self):
+        return self.container.typecode
 
     def front(self):
         """Access the first element."""
