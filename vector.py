@@ -1,24 +1,22 @@
 """Vector container
 
 The vector container implements these methods:
-	at -> access specified element with bounds checking
-	[] -> access specified element
+	at    -> access specified element with bounds checking
+	[]    -> access specified element
 	front -> access the first element
 	back  -> access the last element
 	empty -> checks whether the underlying array is empty
-	data -> direct access to the underlying array
-	forward_iter -> returns an iterator for forward iterations
+	data  -> direct access to the underlying array
+	forward_iter  -> returns an iterator for forward iterations
 	backward_iter -> returns an iterator for backward iterations
-	size -> returns the number of elements
-	capacity -> returns the number of elements that can be held in currently
-				allocated storage
-	clear -> clears contents
-	insert -> inserts elements
-	erase -> erases elements
+	size      -> returns the number of elements
+	clear     -> clears contents
+	insert    -> inserts elements
+	erase     -> erases elements
 	push_back -> adds an element to the end
-	pop_back -> removes the last element
-	resize -> changes the number of elements stored
-	swap -> swaps the contents
+	pop_back  -> removes the last element
+	resize    -> changes the number of elements stored
+	swap      -> swaps the contents
 """
 
 __all__ = ['typecodes', 'vector']
@@ -134,7 +132,7 @@ class vector:
 		"""Adds element at the end."""
 		self._array.append(value)
 
-	def pop_back(self, default=None):
+	def pop_back(self):
 		"""Removes the last element."""
 		self._array.pop()
 
@@ -143,9 +141,6 @@ class vector:
 		if isinstance(other, self.__class__):
 			self._typecode, other._typecode = other._typecode, self._typecode
 			self._array, other._array = other._array, self._array
-
-	def capacity(self):
-		return self.size()
 
 	def forward_iter(self):
 		"""Returns an iterator for forward iteration."""
